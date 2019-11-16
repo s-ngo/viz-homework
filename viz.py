@@ -2,13 +2,21 @@ import os
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+from sklearn.datasets import load_boston
 
-df = pd.read_csv('data/housing.data',
-                 sep='\s+',
-                 header=0)
+boston_housing = load_boston()
+columns_names = boston_housing.feature_names
+y = boston_housing.target
+X = boston_housing.data
 
-# Setting columns to dataset
-df.columns = ['CRIM', 'ZN', 'INDUS', 'CHAS', 'NOX', 'RM', 'AGE', 'DIS', 'RAD', 'TAX', 'PTRATIO', 'B', 'LSTAT', 'MEDV']
+print(f'sklearn dataset X shape: {X.shape}')
+print(f'sklearn dataset y shape: {y.shape}')
+
+# What's inside this sklearn loaded dataset
+print(f'keys: {boston_housing.keys()}')
+print(f'data: {boston_housing.data}')
+print(f'target: {boston_housing.target}')
+print(f'feature_names: {boston_housing.feature_names}')
 
 os.makedirs('plots/data_exploration', exist_ok=True)
 
@@ -61,16 +69,16 @@ os.makedirs('plots/data_exploration', exist_ok=True)
 # plt.close()
 
 # Loop to print a ton of multiplots to check RM
-for col1_indx, column1 in enumerate(df.columns):
-    for col2_indx, column2 in enumerate(df.columns):
-        for col3_indx, column3 in enumerate(df.columns):
+for col1_indx, column1 in enumerate(boston_housing.keys()):
+    for col2_indx, column2 in enumerate(boston_housing.keys()):
+        for col3_indx, column3 in enumerate(boston_housing.keys()):
             if col1_indx < col2_indx and col2_indx < col3_indx:
                 plt.style.use("ggplot")
                 fig, axes = plt.subplots(1, 1, figsize=(5, 5))
                 # This time we plot multiple plots on the same axes, to get some perspective on their comparisons
-                axes.scatter(df['RM'], df[column1], alpha=0.7, label=f'{column1}')
-                axes.scatter(df['RM'], df[column2], alpha=0.7, label=f'{column2}')
-                axes.scatter(df['RM'], df[column3], alpha=0.7, label=f'{column3}')
+                axes.scatter(boston_housing[], boston_housing[column1], alpha=0.7, label=f'{column1}')
+                axes.scatter(boston_housing['RM'], boston_housing[column2], alpha=0.7, label=f'{column2}')
+                axes.scatter(boston_housing['RM'], boston_housing[column3], alpha=0.7, label=f'{column3}')
 
                 axes.set_xlabel('RM')
                 axes.set_ylabel(f'{column1}/{column2}/{column3}')
